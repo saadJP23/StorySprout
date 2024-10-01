@@ -1,0 +1,15 @@
+server {
+    listen 80 default_server;  # Listen on port 80 (HTTP)
+    server_name _;              # Handle all requests
+
+    location / {
+	proxy_pass http://localhost:8001;
+        root /var/www/html;
+        index index.html index.htm;
+    }
+
+    error_log /var/log/nginx/error.log;
+    access_log /var/log/nginx/access.log;
+}
+#This is also used for proxy server and reverse proxy
+#if app run on 8001 then security group also need to open

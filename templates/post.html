@@ -1,0 +1,96 @@
+{% include "header.html" %}
+
+<!-- Modal -->
+<div class="modal fade" id="flashModal" tabindex="-1" aria-labelledby="flashModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="flashModalLabel">Notification</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <!-- Flash messages will appear here -->
+        <div id="flashMessageContent"></div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Page Header-->
+<header class="masthead" style="background-image: url('{{post.img_url}}')">
+  <div class="container position-relative px-4 px-lg-5">
+    <div class="row gx-4 gx-lg-5 justify-content-center">
+      <div class="col-md-10 col-lg-8 col-xl-7">
+        <div class="post-heading">
+          <h1>{{ post.title }}</h1>
+          <h2 class="subheading">{{ post.subtitle }}</h2>
+          <span class="meta">
+            Posted by <a href="#">{{ post.author.username }}</a> on {{ post.date }}
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- Post Content -->
+<article>
+  <div class="container px-4 px-lg-5">
+    <div class="row gx-4 gx-lg-5 justify-content-center">
+      <div class="col-md-10 col-lg-8 col-xl-7">
+        {{ post.body|safe }}
+
+        <!-- Comments Section -->
+        <div class="comments-section mt-5">
+          <h3 class="mb-4">Comments</h3>
+          {% if comments %}
+            {% for comment in comments %}
+              <div class="media mb-4 p-3 rounded shadow-sm bg-light">
+
+                <div class="media-body">
+                  <h5 class="mt-0">{{ comment.comment_author.username }}</h5>
+                  <p>{{ comment.text|safe }}</p>
+
+                </div>
+              </div>
+            {% endfor %}
+          {% else %}
+            <p class="text-muted">No comments yet. Be the first to comment!</p>
+          {% endif %}
+        </div>
+
+        <!-- Edit and Comment buttons -->
+        <div class="d-flex justify-content-between mb-4">
+          <a class="btn btn-primary" href="{{ url_for('edit_post', post_id=post.id) }}">Edit Post</a>
+          <a class="btn btn-success" href="{{ url_for('comment', post_id=post.id) }}">Comment Post</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</article>
+
+{% include "footer.html" %}
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    // Get flash messages if they exist
+    const messages = {{ get_flashed_messages(with_categories=true)|tojson }};
+
+    if (messages.length > 0) {
+      let modalContent = '';
+      messages.forEach(function([category, message]) {
+        modalContent += `<div class="alert alert-${category}" role="alert">${message}</div>`;
+      });
+
+      // Insert flash messages into the modal
+      document.getElementById('flashMessageContent').innerHTML = modalContent;
+
+      // Show the modal
+      const flashModal = new bootstrap.Modal(document.getElementById('flashModal'));
+      flashModal.show();
+    }
+  });
+</script>

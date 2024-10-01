@@ -1,0 +1,8 @@
+{% include 'header.html' %}
+
+<main>
+    <form action="{{ url_for('password_reset1', email=email) }}"  method="post"></form>
+    {{ form.email.label(class_="form-label") }}
+        {{ form.email(class_="form-control") }}
+    <button type="submit" class="btn btn-primary w-100">Reset Password</button>
+</main>

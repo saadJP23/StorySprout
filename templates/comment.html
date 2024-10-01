@@ -1,0 +1,12 @@
+{% from "bootstrap5/form.html" import render_form %}
+{% block content %}
+{% include "header.html" %}
+    <main>
+    {{ render_form(form, novalidate=True, button_map={"submit": "primary"}) }}
+            <div class="col-lg-8 col-md-10 mx-6">
+        {{ ckeditor.load() }}
+        {{ ckeditor.config(name='body') }}
+            </div>
+
+    </main>
+{% include "footer.html" %} {% endblock %}

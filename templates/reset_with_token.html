@@ -1,0 +1,11 @@
+<form method="POST" action="{{ url_for('reset_token', token=token) }}">
+    {{ form.hidden_tag() }}
+    <div class="form-group mb-3">
+        {{ form.password.label(class_="form-label") }}
+        {{ form.password(class_="form-control") }}
+        {% if form.password.errors %}
+            <div class="alert alert-danger">{{ form.password.errors[0] }}</div>
+        {% endif %}
+    </div>
+    <button type="submit" class="btn btn-primary w-100">Set New Password</button>
+</form>
