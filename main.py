@@ -251,7 +251,7 @@ def contact():
         msg = Message(
             "New Contact Form Submission",
             sender=email,  # The sender of the message will be the user's email
-            recipients=['saadirfan803@gmail.com']  # Your email address
+            recipients=app.config['MAIL_USERNAME']  # Your email address
         )
 
         # Format the message body
@@ -424,5 +424,4 @@ def reset_password(token, user_id):
     return render_template('password-reset.html', title="Reset Password", form=form)
 
 if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 5000))  # Use the port from environment or 5000
-    app.run(host="0.0.0.0", port=port, debug=True)
+    app.run(debug=False)
