@@ -251,7 +251,7 @@ def contact():
         msg = Message(
             "New Contact Form Submission",
             sender=email,  # The sender of the message will be the user's email
-            recipients=app.config['MAIL_USERNAME']  # Your email address
+            recipients=[app.config['MAIL_USERNAME']]  # Your email address
         )
 
         # Format the message body
