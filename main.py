@@ -157,27 +157,6 @@ with app.app_context():
 
 
 
-summarize = pipeline("summarization", model="t5-small", tokenizer="t5-small")
-@app.route('/summary', method=['POST'])
-def summary():
-
-    try:
-        data = request.json
-        if not data or "content" not in data:
-            return jsonify({"error": "No content provided"}), 400
-
-        content = data["content"]
-        if len(content) < 10:
-            return jsonify({"error": "Content too short to summarize"}), 400
-
-        summary = summarize(content, max_length=50, min_length=10, do_sample=False)
-        return jsonify({"summary": summary[0]["summary_text"]}), 200
-
-    except Exception as e:
-        return jsonify({"error": str(e)}), 500
-
-
-
 @app.route('/google05185316a453dba.html')
 def google_verification():
     return app.send_static_file('google05185316a453dba.html')
