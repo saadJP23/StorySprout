@@ -1,6 +1,7 @@
-from flask import Flask, abort, render_template, redirect, url_for, flash, request, render_template_string
-from flask_bootstrap import Bootstrap5
+from flask import Flask, abort, render_template, redirect, url_for, flash, request, render_template_string,  jsonify
+# from flask_Bootstrap import Bootstrap5
 from flask_sqlalchemy import SQLAlchemy
+from socks import method
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship
 from sqlalchemy import Integer, String, Text, DateTime, func
 from flask_wtf import FlaskForm
@@ -15,25 +16,23 @@ from sqlalchemy.orm import joinedload
 from flask_mail import Mail, Message
 from itsdangerous import URLSafeTimedSerializer, BadSignature, SignatureExpired
 from reset_password_email_html_content import reset_password_email_html_content
+from transformers import pipeline
 import os
 from dotenv import load_dotenv
-from flask import current_app
 
 
-load_dotenv()
+load_dotenv(dotenv_path='/env.')
+
 app = Flask(__name__)
-app.config['SECRET_KEY'] = os.getenv('FLASK_SECRET_KEY')
-Bootstrap5(app)
+app.config['SECRET_KEY'] = "8BYkEfBA6O6donzWlSihBXox7C0sKR6b"
+# Bootstrap5(app)
 
-# Email configuration (for Gmail in this case)
-app.config['MAIL_SERVER'] = os.getenv('MAIL_SERVER')
-app.config['MAIL_PORT'] = int(os.getenv('MAIL_PORT'))
-app.config['MAIL_USERNAME'] = os.getenv('MAIL_USERNAME')
-app.config['MAIL_PASSWORD'] = os.getenv('MAIL_PASSWORD')
-app.config['MAIL_USE_TLS'] = os.getenv('MAIL_USE_TLS') == 'True'
-app.config['MAIL_USE_SSL'] = os.getenv('MAIL_USE_SSL') == 'True'
-app.config['MAIL_USE_SSL'] = os.getenv('MAIL_USE_SSL') == 'True'
-
+app.config['MAIL_SERVER'] = 'smtp.gmail.com'
+app.config['MAIL_PORT'] = 465
+app.config['MAIL_USERNAME'] = 'saadirfan803@gmail.com'
+app.config['MAIL_PASSWORD'] = "Pyrbomcoiihgcjgj"
+app.config['MAIL_USE_TLS'] = False
+app.config['MAIL_USE_SSL'] = True
 # Initialize Flask-Mail
 mail = Mail(app)
 
@@ -156,6 +155,32 @@ class ResetPasswordForm(FlaskForm):
 with app.app_context():
     db.create_all()
 
+
+
+summarize = pipeline("summarization", model="t5-small", tokenizer="t5-small")
+@app.route('/summary', method=['POST'])
+def summary():
+
+    try:
+        data = request.json
+        if not data or "content" not in data:
+            return jsonify({"error": "No content provided"}), 400
+
+        content = data["content"]
+        if len(content) < 10:
+            return jsonify({"error": "Content too short to summarize"}), 400
+
+        summary = summarize(content, max_length=50, min_length=10, do_sample=False)
+        return jsonify({"summary": summary[0]["summary_text"]}), 200
+
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+
+@app.route('/google05185316a453dba.html')
+def google_verification():
+    return app.send_static_file('google05185316a453dba.html')
 
 @app.route('/')
 def get_all_posts():
