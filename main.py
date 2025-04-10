@@ -432,5 +432,5 @@ def reset_password(token, user_id):
         return render_template('reset_password_success.html', title="Reset Password success")
     return render_template('password-reset.html', title="Reset Password", form=form)
 
-if __name__ == "__main__":
-    app.run(debug=False)
+# if __name__ == "__main__":
+#     app.run(debug=False)
