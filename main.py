@@ -36,6 +36,7 @@ app.config['MAIL_USERNAME'] = os.getenv('MAIL_USERNAME')
 app.config['MAIL_PASSWORD'] = os.getenv('MAIL_PASSWORD')
 app.config['MAIL_USE_TLS'] = os.getenv('MAIL_USE_TLS')
 app.config['MAIL_USE_SSL'] = os.getenv('MAIL_USE_SSL')
+app.config['RESET_SALT'] = os.getenv('RESET_SALT')
 # Initialize Flask-Mail
 mail = Mail(app)
 
@@ -108,7 +109,7 @@ class User(UserMixin, db.Model):
         if user is None:
             return None
 
-        serializer = URLSafeTimedSerializer(app.config["SECRET_KEY"])
+        serializer = URLSafeTimedSerializer(app.config['RESET_SALT'])
         try:
             token_user_email = serializer.loads(
                 token,
