@@ -39,7 +39,6 @@
       </div>
     </div>
     <div class="row">
-      <!-- Post Preview in a Cleaner Grid Layout -->
       {% for post in all_posts %}
       <div class="col-lg-4 col-md-6 mb-5">
         <div class="card h-100 shadow-sm">
@@ -52,13 +51,23 @@
               <small class="text-muted">Posted by <strong>{{ post.author.username }}</strong> on {{ post.date }}</small>
             </p>
           </div>
-          <div class="card-footer bg-white d-flex justify-content-between">
-            <a href="{{ url_for('delete_post', post_id=post.id) }}" class="text-danger delete-button" id="delete-btn-{{ post.id }}">
-              <i class="fas fa-trash-alt"></i> Delete
-            </a>
-            <a href="{{ url_for('edit_post', post_id=post.id) }}" class="text-primary">
-              <i class="fas fa-edit"></i> Edit
-            </a>
+
+          <div class="d-flex justify-content-between mt-2 px-3 pb-3">
+            {% if current_user.is_authenticated and current_user.id == post.author_id %}
+              <div class="d-flex justify-content-around w-100">
+  <a class="btn btn-sm btn-warning" href="{{ url_for('edit_post', post_id=post.id) }}">
+    ✏️ Edit
+  </a>
+  <a class="btn btn-sm btn-danger" href="{{ url_for('delete_post', post_id=post.id) }}">
+    🗑️ Delete
+  </a>
+</div>
+
+            {% else %}
+              <a class="btn btn-sm btn-outline-dark" href="{{ url_for('show_post', post_id=post.id) }}">
+                📖 Read More
+              </a>
+            {% endif %}
           </div>
         </div>
       </div>
@@ -85,20 +94,20 @@
   </div>
 </div>
 
-<!-- Add your flash message script -->
+<!-- Flash message script -->
 <script>
-  document.addEventListener("DOMContentLoaded", function() {
+  document.addEventListener("DOMContentLoaded", function () {
     const messages = {{ get_flashed_messages(with_categories=true)|tojson }};
 
     if (messages.length > 0) {
-      let modalContent = '';
+      let modalContent = "";
 
-      messages.forEach(function([category, message]) {
+      messages.forEach(function ([category, message]) {
         modalContent += `<div class="alert alert-${category}" role="alert">${message}</div>`;
       });
 
-      document.getElementById('flashMessageContent').innerHTML = modalContent;
-      const flashModal = new bootstrap.Modal(document.getElementById('flashModal'));
+      document.getElementById("flashMessageContent").innerHTML = modalContent;
+      const flashModal = new bootstrap.Modal(document.getElementById("flashModal"));
       flashModal.show();
     }
   });
@@ -108,9 +117,11 @@
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-TR6RDQBTSR"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-TR6RDQBTSR');
+  function gtag() {
+    dataLayer.push(arguments);
+  }
+  gtag("js", new Date());
+  gtag("config", "G-TR6RDQBTSR");
 </script>
+
 {% include "footer.html" %}

@@ -9,7 +9,7 @@ attrs==24.2.0
 beautifulsoup4==4.12.3
 bleach==6.1.0
 blinker==1.8.2
-Bootstrap-Flask==2.2.0
+flask-bootstrap5==0.1.dev1
 bs4==0.0.2
 certifi==2024.7.4
 charset-normalizer==3.3.2
@@ -71,7 +71,6 @@ SQLAlchemy==2.0.25
 sqlparse==0.5.1
 sympy==1.13.3
 tokenizers==0.19.1
-torch==2.4.1
 tqdm==4.66.5
 transformers==4.44.2
 trio==0.26.2
@@ -85,7 +84,9 @@ webencodings==0.5.1
 websocket-client==1.8.0
 Werkzeug==3.0.0
 psycopg2-binary==2.9.9
-
 wsproto==1.2.0
 WTForms==3.0.1
 yarl==1.9.4
+Bootstrap-Flask == 2.2.0
+torch==2.2.1
+torchvision==0.17.1

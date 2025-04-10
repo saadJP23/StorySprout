@@ -21,7 +21,7 @@ import os
 from dotenv import load_dotenv
 
 
-load_dotenv(dotenv_path='/env.')
+load_dotenv()
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
@@ -239,6 +239,7 @@ def show_post(post_id):
 
     return render_template("post.html", post=requested_post, current_user=current_user, comments=comments)
 
+
 @app.route("/about")
 def about():
     return render_template("about.html", current_user=current_user)
@@ -313,8 +314,8 @@ def edit_post(post_id):
     post = BlogPost.query.get_or_404(post_id)
 
     if post.author_id != current_user.id:
-        flash("You do not have permission to edit this post.")
-        return redirect(url_for('show_post', post_id=post_id))
+        flash("You do not have permission to edit this post.", "danger")
+        return redirect(url_for('get_all_posts'))
 
     edit_form = BlogForm(
         title=post.title,

@@ -11,6 +11,73 @@
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
  */
 
+.card {
+  border-radius: 12px;
+  transition: all 0.3s ease-in-out;
+  background: #ffffff;
+  border: 1px solid #e6e6e6;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+
+.card-title {
+  font-weight: 700;
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+}
+
+.card-subtitle {
+  font-size: 0.95rem;
+  color: #6c757d;
+}
+
+.btn-outline-primary {
+  border-color: #007bff;
+  color: #007bff;
+  font-weight: 600;
+}
+
+.btn-outline-primary:hover {
+  background-color: #007bff;
+  color: #fff;
+}
+
+.btn-outline-warning,
+.btn-outline-danger {
+  font-weight: 600;
+}
+
+.btn-outline-warning:hover {
+  background-color: #ffc107;
+  color: #000;
+}
+
+.btn-outline-danger:hover {
+  background-color: #dc3545;
+  color: #fff;
+}
+
+.read-more-btn {
+  padding: 6px 18px;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 14px;
+  transition: all 0.3s ease-in-out;
+  border: 1px solid #212529;
+    position: relative;
+  z-index: 2;
+}
+
+.read-more-btn:hover {
+  background-color: #212529;
+  color: #fff;
+  text-decoration: none;
+  z-index: 10;
+}
+
 .password-reset-request-pg {
   position: relative;
   margin-top: 2em;
@@ -10851,4 +10918,8 @@ header.masthead .post-heading .meta a {
   .post-preview > a > .post-title {
     font-size: 2.25rem;
   }
+}
+
+.card {
+  overflow: visible; /* allow button shadow/hover effect to extend */
 }
