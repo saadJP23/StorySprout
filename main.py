@@ -1,5 +1,5 @@
 from flask import Flask, abort, render_template, redirect, url_for, flash, request, render_template_string,  jsonify
-# from flask_Bootstrap import Bootstrap5
+from flask_bootstrap import Bootstrap5
 from flask_sqlalchemy import SQLAlchemy
 from socks import method
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship
@@ -24,15 +24,18 @@ from dotenv import load_dotenv
 load_dotenv(dotenv_path='/env.')
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = "8BYkEfBA6O6donzWlSihBXox7C0sKR6b"
-# Bootstrap5(app)
+app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
 
-app.config['MAIL_SERVER'] = 'smtp.gmail.com'
-app.config['MAIL_PORT'] = 465
-app.config['MAIL_USERNAME'] = 'saadirfan803@gmail.com'
-app.config['MAIL_PASSWORD'] = "Pyrbomcoiihgcjgj"
-app.config['MAIL_USE_TLS'] = False
-app.config['MAIL_USE_SSL'] = True
+bootstrap = Bootstrap5(app)
+
+
+
+app.config['MAIL_SERVER'] = os.getenv('MAIL_SERVER')
+app.config['MAIL_PORT'] = os.getenv('MAIL_PORT')
+app.config['MAIL_USERNAME'] = os.getenv('MAIL_USERNAME')
+app.config['MAIL_PASSWORD'] = os.getenv('MAIL_PASSWORD')
+app.config['MAIL_USE_TLS'] = os.getenv('MAIL_USE_TLS')
+app.config['MAIL_USE_SSL'] = os.getenv('MAIL_USE_SSL')
 # Initialize Flask-Mail
 mail = Mail(app)
 
