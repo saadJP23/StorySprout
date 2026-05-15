@@ -34,8 +34,8 @@ app.config['MAIL_SERVER'] = os.getenv('MAIL_SERVER')
 app.config['MAIL_PORT'] = os.getenv('MAIL_PORT')
 app.config['MAIL_USERNAME'] = os.getenv('MAIL_USERNAME')
 app.config['MAIL_PASSWORD'] = os.getenv('MAIL_PASSWORD')
-app.config['MAIL_USE_TLS'] = os.getenv('MAIL_USE_TLS')
-app.config['MAIL_USE_SSL'] = os.getenv('MAIL_USE_SSL')
+app.config['MAIL_USE_TLS'] = os.getenv('MAIL_USE_TLS') == 'True'
+app.config['MAIL_USE_SSL'] = os.getenv('MAIL_USE_SSL') == 'True'
 app.config['RESET_SALT'] = os.getenv('RESET_SALT')
 # Initialize Flask-Mail
 mail = Mail(app)
@@ -43,7 +43,7 @@ mail = Mail(app)
 # CREATE DATABASE
 class Base(DeclarativeBase):
     pass
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DB_URI', 'sqlite:///posts.db')
+app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv("DATABASE_URL")
 
 db = SQLAlchemy(model_class=Base)
 db.init_app(app)
@@ -280,7 +280,7 @@ def contact():
             flash("Your message has been sent successfully!", "success")
             msg_sent = True
         except Exception as e:
-            flash("Something went wrong. Please try again.", "danger")
+            flash(f"MAIL ERROR: {e}", "danger")
             print(f"Failed to send email: {e}")
 
         return redirect(url_for('contact'))
@@ -432,5 +432,5 @@ def reset_password(token, user_id):
         return render_template('reset_password_success.html', title="Reset Password success")
     return render_template('password-reset.html', title="Reset Password", form=form)
 
-# if __name__ == "__main__":
-#     app.run(debug=False)
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=5000, debug=False)
